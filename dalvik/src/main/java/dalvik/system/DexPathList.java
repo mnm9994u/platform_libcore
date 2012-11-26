@@ -396,11 +396,6 @@ import java.util.zip.ZipFile;
             init = true;
 
             if (zip == null) {
-                /*
-                 * Either this element has no zip/jar file (first
-                 * clause), or the zip/jar file doesn't have an entry
-                 * for the given name (second clause).
-                 */
                 return;
             }
 
@@ -422,6 +417,11 @@ import java.util.zip.ZipFile;
             maybeInit();
 
             if (zipFile == null || zipFile.getEntry(name) == null) {
+                /*
+                 * Either this element has no zip/jar file (first
+                 * clause), or the zip/jar file doesn't have an entry
+                 * for the given name (second clause).
+                 */
                 return null;
             }
 
