@@ -128,6 +128,7 @@ public class ForwardingOs implements Os {
     public void symlink(String oldPath, String newPath) throws ErrnoException { os.symlink(oldPath, newPath); }
     public long sysconf(int name) { return os.sysconf(name); }
     public void tcdrain(FileDescriptor fd) throws ErrnoException { os.tcdrain(fd); }
+    public void tcsendbreak(FileDescriptor fd, int duration) throws ErrnoException { os.tcsendbreak(fd, duration); }
     public int umask(int mask) { return os.umask(mask); }
     public StructUtsname uname() { return os.uname(); }
     public int waitpid(int pid, MutableInt status, int options) throws ErrnoException { return os.waitpid(pid, status, options); }

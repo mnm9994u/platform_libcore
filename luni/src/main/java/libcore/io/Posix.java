@@ -173,6 +173,7 @@ public final class Posix implements Os {
     public native long sysconf(int name);
     public native void tcdrain(FileDescriptor fd) throws ErrnoException;
     public native int umask(int mask);
+    public native void tcsendbreak(FileDescriptor fd, int duration) throws ErrnoException;
     public native StructUtsname uname();
     public native int waitpid(int pid, MutableInt status, int options) throws ErrnoException;
     public int write(FileDescriptor fd, ByteBuffer buffer) throws ErrnoException {

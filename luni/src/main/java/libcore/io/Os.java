@@ -122,6 +122,7 @@ public interface Os {
     public void symlink(String oldPath, String newPath) throws ErrnoException;
     public long sysconf(int name);
     public void tcdrain(FileDescriptor fd) throws ErrnoException;
+    public void tcsendbreak(FileDescriptor fd, int duration) throws ErrnoException;
     public int umask(int mask);
     public StructUtsname uname();
     public int waitpid(int pid, MutableInt status, int options) throws ErrnoException;
