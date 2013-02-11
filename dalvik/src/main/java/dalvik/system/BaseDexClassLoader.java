@@ -59,13 +59,13 @@ public class BaseDexClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        Class clazz = pathList.findClass(name);
+        Class c = pathList.findClass(name);
 
-        if (clazz == null) {
-            throw new ClassNotFoundException("Didn't find class \"" + name + "\" on path: " + originalPath);
+        if (c == null) {
+            throw new ClassNotFoundException("Didn't find class \"" + name + "\" on path: " + pathList);
         }
 
-        return clazz;
+        return c;
     }
 
     @Override
