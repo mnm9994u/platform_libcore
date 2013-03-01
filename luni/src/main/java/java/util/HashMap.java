@@ -294,7 +294,8 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return e == null ? null : e.value;
         }
 
-        // Doug Lea's supplemental secondaryHash function (inlined)
+        // Doug Lea's supplemental secondaryHash function (inlined).
+        // Replace with Collections.secondaryHash when the VM is fast enough (http://b/8290590).
         int hash = key.hashCode();
         hash ^= (hash >>> 20) ^ (hash >>> 12);
         hash ^= (hash >>> 7) ^ (hash >>> 4);
@@ -323,7 +324,8 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return entryForNullKey != null;
         }
 
-        // Doug Lea's supplemental secondaryHash function (inlined)
+        // Doug Lea's supplemental secondaryHash function (inlined).
+        // Replace with Collections.secondaryHash when the VM is fast enough (http://b/8290590).
         int hash = key.hashCode();
         hash ^= (hash >>> 20) ^ (hash >>> 12);
         hash ^= (hash >>> 7) ^ (hash >>> 4);
@@ -337,6 +339,15 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             }
         }
         return false;
+    }
+
+    // Doug Lea's supplemental secondaryHash function (non-inlined).
+    // Replace with Collections.secondaryHash when the VM is fast enough (http://b/8290590).
+    static int secondaryHash(Object key) {
+        int hash = key.hashCode();
+        hash ^= (hash >>> 20) ^ (hash >>> 12);
+        hash ^= (hash >>> 7) ^ (hash >>> 4);
+        return hash;
     }
 
     /**
@@ -387,7 +398,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return putValueForNullKey(value);
         }
 
-        int hash = secondaryHash(key.hashCode());
+        int hash = secondaryHash(key);
         HashMapEntry<K, V>[] tab = table;
         int index = hash & (tab.length - 1);
         for (HashMapEntry<K, V> e = tab[index]; e != null; e = e.next) {
@@ -450,7 +461,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return;
         }
 
-        int hash = secondaryHash(key.hashCode());
+        int hash = secondaryHash(key);
         HashMapEntry<K, V>[] tab = table;
         int index = hash & (tab.length - 1);
         HashMapEntry<K, V> first = tab[index];
@@ -618,7 +629,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
         if (key == null) {
             return removeNullKey();
         }
-        int hash = secondaryHash(key.hashCode());
+        int hash = secondaryHash(key);
         HashMapEntry<K, V>[] tab = table;
         int index = hash & (tab.length - 1);
         for (HashMapEntry<K, V> e = tab[index], prev = null;
@@ -838,7 +849,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return e != null && Objects.equal(value, e.value);
         }
 
-        int hash = secondaryHash(key.hashCode());
+        int hash = secondaryHash(key);
         HashMapEntry<K, V>[] tab = table;
         int index = hash & (tab.length - 1);
         for (HashMapEntry<K, V> e = tab[index]; e != null; e = e.next) {
@@ -866,7 +877,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> implements Cloneable, Seria
             return true;
         }
 
-        int hash = secondaryHash(key.hashCode());
+        int hash = secondaryHash(key);
         HashMapEntry<K, V>[] tab = table;
         int index = hash & (tab.length - 1);
         for (HashMapEntry<K, V> e = tab[index], prev = null;
